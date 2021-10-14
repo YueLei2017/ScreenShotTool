@@ -21,7 +21,7 @@ namespace ScreenShotTool
             ScreenSource = screen.ToBitmapSource();
         }
         public MaskingWindowView View { get; set; }
-        private Bitmap screen;
+        public  Bitmap screen { get; set; }
 
         private ImageSource screenSource;
         public ImageSource ScreenSource

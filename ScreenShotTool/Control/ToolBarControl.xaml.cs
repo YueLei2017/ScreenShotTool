@@ -21,7 +21,7 @@ namespace ScreenShotTool
     public partial class ToolBarControl : UserControl
     {
         public const double ControlHeight = 37;
-        public const double ControlWidth = 130;
+        public const double ControlWidth = 250;
 
         public delegate void SaveEventHandler();
         /// <summary>

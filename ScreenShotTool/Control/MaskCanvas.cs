@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -91,6 +92,7 @@ namespace ScreenShotTool
             CompositionTarget.Rendering += UpdateRectangle;
             ParentView = LogicalTreeHelper.GetParent(this) as MaskingWindowView;
 
+            locakBitmap = new LockBitmap((ParentView.DataContext as MaskingWindowViewModel).screen);
         }
 
         private void MaskCanvas_Unloaded(object sender, RoutedEventArgs e)
@@ -513,6 +515,7 @@ namespace ScreenShotTool
             }
         }
 
+        private LockBitmap locakBitmap;
         /// <summary>
         /// 更新放大镜位置
         /// </summary>
@@ -545,9 +548,12 @@ namespace ScreenShotTool
                                         .ToBitmapSource();
             }
 
-            Color underMouseColor = ScreenColorHelper.GetPixelColor(mousePosition);
-            zoom.POS.Text = "POS：(" + (int)mousePosition.X + "," + (int)mousePosition.Y + ")";
+            locakBitmap.LockBits();
+            Color underMouseColor = locakBitmap.GetPixel((int)mousePosition.X, (int)mousePosition.Y);
             zoom.RGB.Text = "RGB：(" + underMouseColor.R + "," + underMouseColor.G + "," + underMouseColor.B + ")";
+            locakBitmap.UnlockBits();
+
+            zoom.POS.Text = "POS：(" + (int)mousePosition.X + "," + (int)mousePosition.Y + ")";
             zoom.Visibility = Visibility.Visible;
         }
 
